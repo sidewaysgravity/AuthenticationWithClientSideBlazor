@@ -27,8 +27,12 @@ namespace AuthenticationWithClientSideBlazor.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            var connection = string.Format(Configuration.GetConnectionString("DefaultConnection"),
+                Configuration["MYSQL_USERNAME"],
+                Configuration["MYSQL_PASSWORD"]
+            );
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(connection));
 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -64,10 +68,11 @@ namespace AuthenticationWithClientSideBlazor.Server
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBlazorDebugging();
+                app.UseWebAssemblyDebugging();
             }
 
-            app.UseClientSideBlazorFiles<Client.Startup>();
+            app.UseBlazorFrameworkFiles();
+            app.UseStaticFiles();
 
             app.UseRouting();
 
@@ -77,7 +82,7 @@ namespace AuthenticationWithClientSideBlazor.Server
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
-                endpoints.MapFallbackToClientSideBlazor<Client.Startup>("index.html");
+                endpoints.MapFallbackToFile("index.html");
             });
         }
     }

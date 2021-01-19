@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -28,9 +29,9 @@ namespace AuthenticationWithClientSideBlazor.Client.Services
 
         public async Task<RegisterResult> Register(RegisterModel registerModel)
         {
-            var result = await _httpClient.PostJsonAsync<RegisterResult>("api/accounts", registerModel);
+            var result = await _httpClient.PostAsJsonAsync<RegisterModel>("api/accounts", registerModel);
 
-            return result;
+            return await result.Content.ReadFromJsonAsync<RegisterResult>();
         }
 
         public async Task<LoginResult> Login(LoginModel loginModel)
