@@ -21,23 +21,29 @@ guard-%:
 
 create-migration: guard-name #! Generate a new migration (requires parameter name=<Your Migration Name>)
 	MYSQL_USERNAME=$(MYSQL_USERNAME) MYSQL_PASSWORD=$(MYSQL_PASSWORD) dotnet ef migrations add \
-		-o src/AuthenticationWithClientSideBlazor.Server/Data/Migrations $(name)
+		--project src/AuthenticationWithClientSideBlazor.Server/AuthenticationWithClientSideBlazor.Server.csproj \
+		-o Data/Migrations "$(name)"
 
 migrate: #! Run all pending migrations
-	MYSQL_USERNAME=$(MYSQL_USERNAME) MYSQL_PASSWORD=$(MYSQL_PASSWORD) dotnet ef database update
+	MYSQL_USERNAME=$(MYSQL_USERNAME) MYSQL_PASSWORD=$(MYSQL_PASSWORD) dotnet ef database update \
+		--project src/AuthenticationWithClientSideBlazor.Server/AuthenticationWithClientSideBlazor.Server.csproj
 
 revert-to-migration: guard-name #! Revert to the named migration (requires parameter name=<Your Migration Name>)
-	MYSQL_USERNAME=$(MYSQL_USERNAME) MYSQL_PASSWORD=$(MYSQL_PASSWORD) dotnet ef database update $(name)
+	MYSQL_USERNAME=$(MYSQL_USERNAME) MYSQL_PASSWORD=$(MYSQL_PASSWORD) dotnet ef database update \
+		--project src/AuthenticationWithClientSideBlazor.Server/AuthenticationWithClientSideBlazor.Server.csproj "$(name)"
 
 remove-migration: #! Removes the last generated migration
-	MYSQL_USERNAME=$(MYSQL_USERNAME) MYSQL_PASSWORD=$(MYSQL_PASSWORD) dotnet ef migrations remove
+	MYSQL_USERNAME=$(MYSQL_USERNAME) MYSQL_PASSWORD=$(MYSQL_PASSWORD) dotnet ef migrations remove \
+		--project src/AuthenticationWithClientSideBlazor.Server/AuthenticationWithClientSideBlazor.Server.csproj
 
 generate-migration-sql: guard-from #! Generate sql for migration (requires parameter from=<Your Migration Name>)
 	MYSQL_USERNAME=$(MYSQL_USERNAME) MYSQL_PASSWORD=$(MYSQL_PASSWORD) dotnet ef migrations script \
-		-o src/AuthenticationWithClientSideBlazor.Server/Data/Migrations/generated.sql $(from)
+		--project src/AuthenticationWithClientSideBlazor.Server/AuthenticationWithClientSideBlazor.Server.csproj \
+		-o Data/Migrations/generated.sql "$(from)"
 
 validate-schema: #! Validate that the schema configuration is correct
-	MYSQL_USERNAME=$(MYSQL_USERNAME) MYSQL_PASSWORD=$(MYSQL_PASSWORD) dotnet ef dbcontext info
+	MYSQL_USERNAME=$(MYSQL_USERNAME) MYSQL_PASSWORD=$(MYSQL_PASSWORD) dotnet ef dbcontext info \
+		--project src/AuthenticationWithClientSideBlazor.Server/AuthenticationWithClientSideBlazor.Server.csproj \
 
 watch: #! Run the application, restarting on changes
 	dotnet watch run
