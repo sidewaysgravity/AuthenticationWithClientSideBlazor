@@ -10,7 +10,7 @@
             "request": "launch",
             "hosted": true,
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/AuthenticationWithClientSideBlazor.Server/bin/Debug/netcoreapp3.1/AuthenticationWithClientSideBlazor.Server.dll",
+            "program": "${workspaceFolder}/src/AuthenticationWithClientSideBlazor.Server/bin/Debug/net5.0/AuthenticationWithClientSideBlazor.Server.dll",
             "cwd": "${workspaceFolder}/src/AuthenticationWithClientSideBlazor.Server",
             "serverReadyAction": {
                 "action": "openExternally",
