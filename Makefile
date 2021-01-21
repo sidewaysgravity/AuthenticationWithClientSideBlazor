@@ -46,4 +46,5 @@ validate-schema: #! Validate that the schema configuration is correct
 		--project src/AuthenticationWithClientSideBlazor.Server/AuthenticationWithClientSideBlazor.Server.csproj \
 
 watch: #! Run the application, restarting on changes
-	dotnet watch run
+	MYSQL_USERNAME=$(MYSQL_USERNAME) MYSQL_PASSWORD=$(MYSQL_PASSWORD) ASPNETCORE_ENVIRONMENT=Development dotnet watch run \
+		--project src/AuthenticationWithClientSideBlazor.Server/AuthenticationWithClientSideBlazor.Server.csproj
