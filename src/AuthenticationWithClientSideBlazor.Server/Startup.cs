@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Linq;
 using System.Text;
 
@@ -32,7 +33,10 @@ namespace AuthenticationWithClientSideBlazor.Server
                 Configuration["MYSQL_PASSWORD"]
             );
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySql(connection));
+                options.UseMySql(
+                    connection,
+                    new MySqlServerVersion(new Version(5, 7, 0))
+                ));
 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -68,6 +72,7 @@ namespace AuthenticationWithClientSideBlazor.Server
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseMigrationsEndPoint();
                 app.UseWebAssemblyDebugging();
             }
 
